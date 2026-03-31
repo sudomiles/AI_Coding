@@ -1,0 +1,136 @@
+{
+  "test_cases": [
+    {
+      "id": "TC001",
+      "name": "网卡驱动故障",
+      "category": "hardware_network",
+      "severity": "critical",
+      "log_content": "[2024-01-15 14:23:45] [KERNEL] eth0: link down\n[2024-01-15 14:23:46] [KERNEL] eth0: link up, 1000Mbps, full duplex\n[2024-01-15 14:23:47] [KERNEL] igb 0000:01:00.0: eth0: igb: eth0 NIC Link is Down\n[2024-01-15 14:24:01] [KERNEL] igb 0000:01:00.0: eth0: igb: eth0 NIC Link is Up 1000 Mbps Full Duplex, Flow Control: RX/TX\n[2024-01-15 14:24:15] [KERNEL] eth0: link down\n[2024-01-15 14:24:20] [KERNEL] eth0: link up\n[2024-01-15 14:24:35] [KERNEL] igb 0000:01:00.0: eth0: Reset adapter\n[2024-01-15 14:24:40] [KERNEL] igb 0000:01:00.0: eth0: igb: eth0 NIC Link is Down\n[2024-01-15 14:25:00] [SYSTEMD] network.service: Main process exited, code=exited, status=1/FAILURE",
+      "expected_analysis": {
+        "issue_type": "network_interface_unstable",
+        "affected_component": "eth0 (igb driver)",
+        "root_cause": "网络接口频繁掉线，可能原因：网卡驱动故障、物理连接问题、硬件故障",
+        "suggested_actions": [
+          "检查网线连接和交换机端口",
+          "更新网卡驱动程序",
+          "检查网卡硬件状态",
+          "查看网卡统计信息（ethtool -S eth0）",
+          "考虑更换网卡硬件"
+        ]
+      }
+    },
+    {
+      "id": "TC002",
+      "name": "磁盘I/O错误",
+      "category": "hardware_storage",
+      "severity": "critical",
+      "log_content": "[2024-01-15 10:30:12] [KERNEL] ata1.00: exception Emask 0x0 SAct 0x0 SErr 0x0 action 0x6 frozen\n[2024-01-15 10:30:12] [KERNEL] ata1.00: failed command: READ FPDMA QUEUED\n[2024-01-15 10:30:12] [KERNEL] ata1.00: cmd 60/00:00:1f:a9:c0/00:00:00:00:00/40 tag 0 ncq 4096 in\n[2024-01-15 10:30:12] [KERNEL] res 40/00:01:00:00:00/00:00:00:00:00/00 Emask 0x4 (timeout)\n[2024-01-15 10:30:12] [KERNEL] ata1.00: status: { DRDY }\n[2024-01-15 10:30:15] [KERNEL] sd 0:0:0:0: [sda] tag#0 FAILED Result: hostbyte=DID_OK driverbyte=DRIVER_OK\n[2024-01-15 10:30:15] [KERNEL] sd 0:0:0:0: [sda] tag#0 CDB: Read(16) 88 00 00 00 00 00 c0 a9 1f 00 00 00 00 10 00\n[2024-01-15 10:30:15] [KERNEL] blk_update_request: I/O error, dev sda, sector 3232025984\n[2024-01-15 10:30:20] [SYSTEMD] systemd[1]: dev-sda.device: Job dev-sda.device/start timed out.",
+      "expected_analysis": {
+        "issue_type": "disk_io_error",
+        "affected_component": "sda (SATA disk)",
+        "root_cause": "磁盘读取超时，ATA命令失败，可能原因：磁盘坏道、磁盘控制器故障、数据线问题",
+        "suggested_actions": [
+          "立即备份重要数据",
+          "运行 smartctl 检查磁盘健康状态",
+          "执行坏道扫描（badblocks）",
+          "检查磁盘连接线和电源",
+          "考虑更换磁盘"
+        ]
+      }
+    },
+    {
+      "id": "TC003",
+      "name": "内存错误",
+      "category": "hardware_memory",
+      "severity": "critical",
+      "log_content": "[2024-01-15 08:15:23] [KERNEL] EDAC MC0: 1 CE memory read error on CPU0_DIMM0 (channel:0 slot:0 page:0x12345678 offset:0x123 grain:32 syndrome:0x0)\n[2024-01-15 08:15:30] [KERNEL] EDAC MC0: 1 CE memory read error on CPU0_DIMM0 (channel:0 slot:0 page:0x12345679 offset:0x456 grain:32 syndrome:0x0)\n[2024-01-15 08:15:45] [KERNEL] EDAC MC0: 1 UE memory read error on CPU0_DIMM1 (channel:0 slot:1 page:0x12345680 offset:0x789 grain:8 syndrome:0x0)\n[2024-01-15 08:16:00] [KERNEL] mce: [Hardware Error]: Machine check events logged\n[2024-01-15 08:16:01] [KERNEL] mce: [Hardware Error]: CPU 0: Machine Check Exception: 4 Bank 5: b200000000070f0f\n[2024-01-15 08:16:01] [KERNEL] mce: [Hardware Error]: RIP 10:ffffffff8a012345\n[2024-01-15 08:16:01] [KERNEL] mce: [Hardware Error]: TSC 123456789012345 ADDR 1234567890 PROCESSOR 0:0 TIME 1234567890\n[2024-01-15 08:16:05] [KERNEL] Kernel panic - not syncing: Hardware Fatal Error",
+      "expected_analysis": {
+        "issue_type": "memory_error_fatal",
+        "affected_component": "CPU0_DIMM0, CPU0_DIMM1",
+        "root_cause": "内存模块出现可纠正错误（CE）和不可纠正错误（UE），导致系统崩溃",
+        "suggested_actions": [
+          "立即更换故障内存条",
+          "运行内存诊断工具（memtest86+）",
+          "检查内存插槽和连接",
+          "更新BIOS/UEFI固件",
+          "查看内存兼容性列表"
+        ]
+      }
+    },
+    {
+      "id": "TC004",
+      "name": "防火墙连接追踪表溢出",
+      "category": "security_network",
+      "severity": "high",
+      "log_content": "[2024-01-15 16:45:30] [KERNEL] nf_conntrack: table full, dropping packet\n[2024-01-15 16:45:31] [KERNEL] nf_conntrack: table full, dropping packet\n[2024-01-15 16:45:32] [KERNEL] nf_conntrack: table full, dropping packet\n[2024-01-15 16:45:35] [KERNEL] nf_conntrack: nf_conntrack: table full, dropping packet\n[2024-01-15 16:45:40] [NETFILTER] conntrack: nf_conntrack: nf_conntrack: nf_conntrack: table full, dropping packet\n[2024-01-15 16:46:00] [SYSTEMD] conntrack.service: Failed with result 'timeout'\n[2024-01-15 16:46:05] [AUDIT] type=NETFILTER_PKT msg=audit(1234567890.123:456): table=nat chain=OUTPUT packet=DROP",
+      "expected_analysis": {
+        "issue_type": "conntrack_table_overflow",
+        "affected_component": "netfilter conntrack",
+        "root_cause": "连接追踪表已满，可能原因：遭受DDoS攻击、网络流量异常增大、连接追踪表配置过小",
+        "suggested_actions": [
+          "检查当前连接追踪表大小（cat /proc/sys/net/netfilter/nf_conntrack_count）",
+          "临时增大连接追踪表（echo 262144 > /proc/sys/net/netfilter/nf_conntrack_max）",
+          "分析异常连接来源（conntrack -L | grep ESTABLISHED）",
+          "检查是否遭受DDoS攻击",
+          "优化防火墙规则，减少需要追踪的连接",
+          "永久修改配置文件（/etc/sysctl.conf）"
+        ]
+      }
+    },
+    {
+      "id": "TC005",
+      "name": "SSH暴力破解攻击",
+      "category": "security_attack",
+      "severity": "high",
+      "log_content": "[2024-01-15 22:10:15] [SSH] Failed password for invalid user admin from 192.168.1.100 port 52341 ssh2\n[2024-01-15 22:10:16] [SSH] Failed password for invalid user admin from 192.168.1.100 port 52342 ssh2\n[2024-01-15 22:10:17] [SSH] Failed password for invalid user root from 192.168.1.100 port 52343 ssh2\n[2024-01-15 22:10:18] [SSH] Failed password for invalid user root from 192.168.1.100 port 52344 ssh2\n[2024-01-15 22:10:19] [SSH] Failed password for invalid user test from 192.168.1.100 port 52345 ssh2\n[2024-01-15 22:10:20] [SSH] Failed password for invalid user test from 192.168.1.100 port 52346 ssh2\n[2024-01-15 22:10:21] [SSH] Failed password for invalid user user from 192.168.1.100 port 52347 ssh2\n[2024-01-15 22:10:22] [SSH] Connection closed by 192.168.1.100 port 52347 [preauth]\n[2024-01-15 22:10:25] [AUDIT] type=USER_LOGIN msg=audit(1234567890.123:789): pid=12345 uid=0 auid=4294967295 ses=4294967295 msg='op=login acct=\"root\" exe=\"/usr/sbin/sshd\" hostname=192.168.1.100 addr=192.168.1.100 terminal=ssh res=failed'",
+      "expected_analysis": {
+        "issue_type": "ssh_brute_force_attack",
+        "affected_component": "SSH service (port 22)",
+        "root_cause": "检测到来自IP 192.168.1.100的SSH暴力破解攻击，尝试多个用户名和密码组合",
+        "suggested_actions": [
+          "立即封禁攻击源IP（iptables -A INPUT -s 192.168.1.100 -j DROP）",
+          "安装并配置fail2ban进行自动防护",
+          "修改SSH配置：禁用root登录、修改默认端口、启用密钥认证",
+          "查看是否有成功登录的记录（grep 'Accepted password' /var/log/auth.log）",
+          "检查系统用户列表，删除可疑账户",
+          "启用SSH登录通知和监控"
+        ]
+      }
+    },
+    {
+      "id": "TC006",
+      "name": "CPU温度过高",
+      "category": "hardware_cpu",
+      "severity": "high",
+      "log_content": "[2024-01-15 15:30:45] [KERNEL] coretemp coretemp.0: Core 0: temperature above threshold, cpu clock throttled\n[2024-01-15 15:30:45] [KERNEL] coretemp coretemp.0: Core 1: temperature above threshold, cpu clock throttled\n[2024-01-15 15:30:46] [KERNEL] coretemp coretemp.0: Core 2: temperature above threshold, cpu clock throttled\n[2024-01-15 15:30:46] [KERNEL] coretemp coretemp.0: Core 3: temperature above threshold, cpu clock throttled\n[2024-01-15 15:30:50] [KERNEL] CPU: Core temperature is too high! (85C)\n[2024-01-15 15:30:55] [SYSTEMD] thermald.service: Main process exited, code=exited, status=1/FAILURE\n[2024-01-15 15:31:00] [KERNEL] CPU: Temperature above threshold, cpu clock throttled (total events = 1234)",
+      "expected_analysis": {
+        "issue_type": "cpu_overheat",
+        "affected_component": "CPU cores (all cores)",
+        "root_cause": "CPU温度过高，可能原因：散热系统故障、风扇故障、散热硅脂老化、环境温度过高",
+        "suggested_actions": [
+          "检查CPU风扇是否正常运转",
+          "清理散热器和风扇灰尘",
+          "重新涂抹散热硅脂",
+          "检查机箱散热和风道设计",
+          "查看CPU使用率，关闭高负载进程",
+          "检查环境温度和机箱位置",
+          "考虑升级散热系统"
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "created_at": "2024-01-15",
+    "description": "网络安全设备日志分析测试用例集",
+    "categories": [
+      "hardware_network",
+      "hardware_storage", 
+      "hardware_memory",
+      "hardware_cpu",
+      "security_network",
+      "security_attack"
+    ],
+    "severities": ["critical", "high", "medium", "low"]
+  }
+}

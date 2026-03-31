@@ -1,0 +1,7 @@
+llm:
+  provider: openai
+  api_key: "sk-afziljizawbopuykixvdjjumbdeavdtzhxqenjiymtslbmzf"
+  base_url: "https://api.siliconflow.cn/v1"
+  model: "deepseek-ai/DeepSeek-V2.5"
+  temperature: 0.3
+  max_tokens: 4096

@@ -1,0 +1,10 @@
+{
+  "error": "Error code: 400 - {'code': 20015, 'message': 'length of prompt_tokens (57930) must be less than max_seq_len (32768).', 'data': None}",
+  "metadata": {
+    "timestamp": "2026-03-31T12:28:54.382429",
+    "analyzer_version": "1.0",
+    "llm_provider": "openai",
+    "llm_model": "deepseek-ai/DeepSeek-V2.5",
+    "test_case_id": null
+  }
+}

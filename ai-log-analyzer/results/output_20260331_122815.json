@@ -1,0 +1,11 @@
+{
+  "raw_response": "由于提供的日志内容似乎是乱码或无效字符，无法进行有效的分析。请提供有效的日志内容，以便我能够按照上述分析框架进行详细的日志分析和问题诊断。\n\n如果你有其他问题或需要进一步的帮助，请随时告知！",
+  "error": "未找到有效的JSON响应",
+  "metadata": {
+    "timestamp": "2026-03-31T12:28:15.147416",
+    "analyzer_version": "1.0",
+    "llm_provider": "openai",
+    "llm_model": "deepseek-ai/DeepSeek-V2.5",
+    "test_case_id": null
+  }
+}

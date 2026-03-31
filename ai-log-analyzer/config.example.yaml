@@ -1,0 +1,83 @@
+# AI Log Analyzer 配置文件示例
+# 复制此文件为 config.yaml 并填入您的配置
+
+# LLM 配置
+llm:
+  # 提供商: openai, deepseek, qwen
+  provider: openai
+  
+  # API Key（必填）
+  api_key: "your-api-key-here"
+  
+  # API Base URL（可选，用于自定义端点）
+  # OpenAI 默认: https://api.openai.com/v1
+  # DeepSeek 默认: https://api.deepseek.com/v1
+  # Qwen 默认: https://dashscope.aliyuncs.com/compatible-mode/v1
+  base_url: ""
+  
+  # 模型名称
+  # OpenAI: gpt-4o, gpt-4o-mini, gpt-4-turbo
+  # DeepSeek: deepseek-chat, deepseek-coder
+  # Qwen: qwen-plus, qwen-turbo, qwen-max
+  model: "gpt-4o-mini"
+  
+  # 温度参数 (0.0-2.0)
+  # 较低的值 (0.0-0.3) 适合分析任务，输出更确定
+  temperature: 0.3
+  
+  # 最大输出 token 数
+  max_tokens: 4096
+
+# 分析配置
+analysis:
+  # 日志文件最大大小（字节），超过此大小会被截断
+  max_log_size: 100000
+  
+  # 是否启用流式输出
+  stream_output: true
+  
+  # 结果保存格式: json, yaml, text
+  output_format: json
+
+# 评估配置
+evaluation:
+  # 是否在分析后自动运行评估
+  auto_evaluate: false
+  
+  # 通过分数阈值
+  pass_threshold: 60
+
+# ============================================
+# 不同提供商的配置示例
+# ============================================
+
+# OpenAI 配置示例
+# llm:
+#   provider: openai
+#   api_key: "sk-xxxxx"
+#   model: "gpt-4o-mini"
+#   temperature: 0.3
+
+# DeepSeek 配置示例
+# llm:
+#   provider: deepseek
+#   api_key: "sk-xxxxx"
+#   base_url: "https://api.deepseek.com/v1"
+#   model: "deepseek-chat"
+#   temperature: 0.3
+
+# Qwen (通义千问) 配置示例
+# llm:
+#   provider: qwen
+#   api_key: "sk-xxxxx"
+#   base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+#   model: "qwen-plus"
+#   temperature: 0.3
+
+# 自定义 OpenAI 兼容 API 示例（如本地部署的 Ollama）
+# llm:
+#   provider: openai
+#   api_key: "ollama"  # Ollama 不需要真实 key
+#   base_url: "http://localhost:11434/v1"
+#   model: "llama3"
+#   temperature: 0.3

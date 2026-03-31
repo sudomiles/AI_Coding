@@ -1,0 +1,21 @@
+{
+  "analysis_summary": {
+    "total_issues": 0,
+    "critical_count": 0,
+    "high_count": 0,
+    "medium_count": 0,
+    "low_count": 0
+  },
+  "issues": [],
+  "overall_recommendations": [
+    "确保日志文件完整且格式正确，以便进行有效的分析"
+  ],
+  "additional_notes": "当前日志内容不完整，无法进行有效分析。建议检查日志文件的完整性和编码格式，并提供完整的日志内容以便进一步分析。",
+  "metadata": {
+    "timestamp": "2026-03-31T12:27:14.296258",
+    "analyzer_version": "1.0",
+    "llm_provider": "openai",
+    "llm_model": "deepseek-ai/DeepSeek-V2.5",
+    "test_case_id": null
+  }
+}

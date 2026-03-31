@@ -1,0 +1,23 @@
+# AI Log Analyzer 依赖包
+
+# OpenAI SDK（必需，兼容多个提供商）
+openai>=1.0.0
+
+# YAML 配置文件支持（可选）
+pyyaml>=6.0
+
+# 数据处理（评估器使用）
+# 无需额外安装，使用 Python 标准库
+
+# ============================================
+# 安装方式
+# ============================================
+# 
+# 最小安装（仅核心功能）:
+#   pip install openai
+#
+# 完整安装（包含配置文件支持）:
+#   pip install -r requirements.txt
+#
+# 使用国内镜像加速:
+#   pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
