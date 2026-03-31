@@ -1,5 +1,6 @@
 # 配置文件（包含敏感信息）
 config.yaml
+config.yml
 
 # Python
 __pycache__/
@@ -35,9 +36,9 @@ env/
 *.swo
 *~
 
-# 结果文件（可选，如果想保留测试结果可以注释掉）
-# results/*.json
-# !results/output.json
+# 结果文件
+results/
+!results/output.json
 
 # 日志文件
 *.log
